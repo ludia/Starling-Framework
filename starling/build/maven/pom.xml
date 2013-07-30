@@ -10,9 +10,9 @@
 	<version>1.4-SNAPSHOT</version>
 
 	<properties>
-		<flexmojos.version>4.2-beta</flexmojos.version>
-		<flex.framework.version>4.6.0.23201</flex.framework.version>
-		<playerglobal.version>11.4</playerglobal.version>
+		<flexmojos.version>5.1-beta</flexmojos.version>
+		<flex.sdk.version>4.5.1.21328</flex.sdk.version>
+		<flashplayer.target.version>11.4</flashplayer.target.version>
 	</properties>
 
 	<ciManagement>
@@ -22,26 +22,12 @@
 
 	<build>
 		<sourceDirectory>../../src</sourceDirectory>
-
 		<plugins>
 			<plugin>
 				<groupId>net.flexmojos.oss</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>6.0.0</version>
+				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<storepass/>
-					<skipTests>true</skipTests>
-					<skipTest>true</skipTest>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.adobe.flex</groupId>
-						<artifactId>compiler</artifactId>
-						<version>${flex.framework.version}</version>
-						<type>pom</type>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 
@@ -49,67 +35,72 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>flex-framework</artifactId>
-			<version>${flex.framework.version}</version>
-			<type>pom</type>
-		</dependency>
-    <dependency>
-      <groupId>com.adobe.flash.framework</groupId>
-      <artifactId>playerglobal</artifactId>
-      <version>${playerglobal.version}</version>
-      <type>swc</type>
-		</dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>airglobal</artifactId>
+                </exclusion>
+            </exclusions>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>flex-framework</artifactId>
+            <version>${flex.sdk.version}</version>
+            <type>pom</type>
+        </dependency>
+	    <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>playerglobal</artifactId>
+            <version>${flex.sdk.version}</version>
+            <classifier>${flashplayer.target.version}</classifier>
+            <type>swc</type>
+        </dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>sonatype-repository</id>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>flex-mojos-repository</id>
-			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+	<scm>
+        <connection>scm:git:git@github.com:ludia/Starling-Framework.git</connection>
+        <url>https://github.com/ludia/Starling-Framework</url>
+    </scm>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>sonatype-repository</id>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>flex-mojos-repository</id>
-			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+    <repositories>
+    	<repository>
+            <id>ludia-public</id>
+            <name>Ludia Public Repository</name>
+            <url>https://nexus.socialludia.com/content/groups/public/</url>
+            <snapshots>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ludia-public</id>
+            <name>Ludia Public Repository</name>
+            <url>https://nexus.socialludia.com/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+	<distributionManagement>
+        <repository>
+            <id>ludia-client-releases</id>
+            <url>https://nexus.socialludia.com/content/repositories/ludia-client-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>ludia-client-snapshots</id>
+            <url>https://nexus.socialludia.com/content/repositories/ludia-client-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
-
